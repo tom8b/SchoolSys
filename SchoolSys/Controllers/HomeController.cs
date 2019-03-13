@@ -4,14 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SchoolSys.Data;
 using SchoolSys.Models;
 
 namespace SchoolSys.Controllers
 {
     public class HomeController : Controller
     {
+        private SchoolContext _context;
+
+        public HomeController(SchoolContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
+           
             return View();
         }
 
