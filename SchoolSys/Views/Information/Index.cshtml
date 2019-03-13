@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Class>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@foreach (var TheClass in Model)
+{
+   
+    <a asp-action="ClassDetail" asp-route-id="@TheClass.Id">@TheClass.ClassName</a>
+}

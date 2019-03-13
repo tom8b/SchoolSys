@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Student>
+@{
+    ViewData["Title"] = "ClassDetail";
+}
+
+<h1>ClassDetail</h1>
+
+@foreach (var student in Model)
+{
+<a> @student.FirstName @student.LastName</a>
+}

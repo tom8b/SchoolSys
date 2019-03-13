@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolSys.Data;
+using SchoolSys.Services.Implemented;
+using SchoolSys.Services.Interfaces;
 
 namespace SchoolSys
 {
@@ -32,6 +34,9 @@ namespace SchoolSys
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddScoped<IStudentService, StudentService>();
+
 
             services.AddDbContext<SchoolContext>(options => options
             .UseSqlServer(Configuration
