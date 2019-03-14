@@ -36,6 +36,7 @@ namespace SchoolSys
             });
 
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IManagerService, ManagerService>();
 
 
             services.AddDbContext<SchoolContext>(options => options

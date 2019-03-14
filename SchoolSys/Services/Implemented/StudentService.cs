@@ -28,6 +28,16 @@ namespace SchoolSys.Services.Implemented
             return _context.Students;
         }
 
+        public Class getClass(int classId)
+        {
+            return _context.Classes.FirstOrDefault(c => c.Id == classId);
+        }
+
+        public Class getClassByName(string className)
+        {
+            return _context.Classes.FirstOrDefault(c => c.ClassName.Equals(className));
+        }
+
         public Student GetStudentById(int id)
         {
             return _context.Students

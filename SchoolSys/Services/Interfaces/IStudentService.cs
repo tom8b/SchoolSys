@@ -14,6 +14,8 @@ namespace SchoolSys.Services.Interfaces
         #region classes
         IEnumerable<Class> GetAllClasses();
         IEnumerable<Student> GetStudentsFromClass(int classId);
+        Class getClass(int classId);
+        Class getClassByName(string className);
         
         #endregion
     }

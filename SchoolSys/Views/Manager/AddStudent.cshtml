@@ -1,0 +1,53 @@
+﻿@model SchoolSys.DataViewModels.AddStudentViewModel
+@{
+    ViewData["Title"] = "AddStudent";
+}
+
+<h1>AddStudent</h1>
+
+<form method="post">
+    <label asp-for="@Model.newStudent.FirstName"></label>
+    <input asp-for="@Model.newStudent.FirstName" />
+    <span asp-validation-for="@Model.newStudent.FirstName"></span>
+
+    <label asp-for="@Model.newStudent.LastName"></label>
+    <input asp-for="@Model.newStudent.LastName" />
+    <span asp-validation-for="@Model.newStudent.LastName"></span>
+
+    <label asp-for="@Model.newStudent.PESEL"></label>
+    <input asp-for="@Model.newStudent.PESEL" />
+    <span asp-validation-for="@Model.newStudent.PESEL"></span>
+
+    <label asp-for="@Model.newStudent.Address"></label>
+    <input asp-for="@Model.newStudent.Address" />
+    <span asp-validation-for="@Model.newStudent.Address"></span>
+
+    <label asp-for="@Model.newStudent.MailAddress"></label>
+    <input asp-for="@Model.newStudent.MailAddress" />
+    <span asp-validation-for="@Model.newStudent.MailAddress"></span>
+
+    <label asp-for="@Model.newStudent.TelephoneNumber"></label>
+    <input asp-for="@Model.newStudent.TelephoneNumber" />
+    <span asp-validation-for="@Model.newStudent.TelephoneNumber"></span>
+
+    <label asp-for="@Model.newStudent.ClassName"></label>
+    <select asp-for="@Model.newStudent.ClassName"
+            asp-items="@Model.Classes"></select>
+    <span asp-validation-for="@Model.newStudent.ClassName"></span>
+
+    <input type="submit" name="save" value="Save" />
+</form>
+
+@*public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PESEL { get; set; }
+        public string Address { get; set; }
+        public string MailAddress { get; set; }
+        public string TelephoneNumber { get; set; }
+
+
+        public virtual Class Class { get; set; }
+        public virtual IEnumerable<Mark>
+    Marks { get; set; }
+    public virtual IEnumerable<Parent> Parents { get; set; }*@
