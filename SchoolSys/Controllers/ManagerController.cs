@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSys.DataViewModels;
@@ -50,23 +51,24 @@ namespace SchoolSys.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return View();
+                return View(newStudent) ;
             }
 
-            var NewStudent = new Student();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NewStudent, Student>())
+                .CreateMapper();
 
-            NewStudent.FirstName = newStudent.FirstName;
-                 NewStudent.LastName = newStudent.LastName;
-                 NewStudent.Address = newStudent.Address;
-                 NewStudent.PESEL = newStudent.PESEL;
-                 NewStudent.MailAddress = newStudent.MailAddress;
-                 NewStudent.TelephoneNumber = newStudent.TelephoneNumber;
-                 NewStudent.Class = _student.getClassByName(newStudent.ClassName);
-            
+            var NewStudent = mapper.Map<Student>(newStudent);
+
+            NewStudent.Class = _student.getClassByName(newStudent.ClassName);
 
             _manager.AddStudent(NewStudent);
 
             return RedirectToAction("Index", "Information", null);
+        }
+
+        public IActionResult StudentDetail(int id)
+        {
+            return View();
         }
 
 
