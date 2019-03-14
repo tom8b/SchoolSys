@@ -1,4 +1,5 @@
-﻿using SchoolSys.Models;
+﻿using SchoolSys.DataViewModels;
+using SchoolSys.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace SchoolSys.Services.Interfaces
     {
         IEnumerable<Student> GetAllStudents();
         Student GetStudentById(int id);
+        StudentWithMarksViewModel GetStudentWithTheirMarks(int id);
 
         #region classes
         IEnumerable<Class> GetAllClasses();

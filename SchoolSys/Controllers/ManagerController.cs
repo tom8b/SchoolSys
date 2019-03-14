@@ -68,7 +68,8 @@ namespace SchoolSys.Controllers
 
         public IActionResult StudentDetail(int id)
         {
-            return View();
+            var model = _student.GetStudentWithTheirMarks(id);
+            return View(model);
         }
 
 

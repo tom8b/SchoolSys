@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolSys.Data;
+using SchoolSys.DataViewModels;
 using SchoolSys.Models;
 using SchoolSys.Services.Interfaces;
 using System;
@@ -50,6 +51,27 @@ namespace SchoolSys.Services.Implemented
                 .Include(c => c.ClassMembers)
                 .FirstOrDefault(c => c.Id == classId)
                 .ClassMembers;
+        }
+
+        public StudentWithMarksViewModel GetStudentWithTheirMarks(int id)
+        {
+            var model = new StudentWithMarksViewModel();
+
+            var student = _context.Students
+                .Include(s => s.Class)
+                .FirstOrDefault(s => s.Id == id);
+
+            var marks = _context.Marks
+                .Include(m => m.Subject)
+                .Where(m => m.Student.Id == id)
+                .OrderBy(m => m.Subject.Id);
+
+            model.marks = marks;
+            model.student = student;
+            model.StudentClass = student.Class;
+            
+            return model;
+
         }
     }
 }

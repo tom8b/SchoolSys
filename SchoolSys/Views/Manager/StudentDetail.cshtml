@@ -1,7 +1,43 @@
-﻿
+﻿@model SchoolSys.DataViewModels.StudentWithMarksViewModel
 @{
     ViewData["Title"] = "StudentDetail";
 }
 
 <h1>StudentDetail</h1>
+
+<div>
+    <label asp-for="@Model.student.FirstName"></label>
+    <a>: @Model.student.FirstName</a>
+    <label asp-for="@Model.student.LastName"></label>
+    <a>: @Model.student.LastName</a>
+    <label asp-for="@Model.student.PESEL"></label>
+    <a>: @Model.student.PESEL</a>
+    <label asp-for="@Model.student.Address"></label>
+    <a>: @Model.student.Address</a>
+    <label asp-for="@Model.student.TelephoneNumber"></label>
+    <a>: @Model.student.TelephoneNumber</a>
+    <label asp-for="@Model.student.MailAddress"></label>
+    <a>: @Model.student.MailAddress</a>
+    <label asp-for="@Model.StudentClass.ClassName"></label>
+    <a>: @Model.StudentClass.ClassName</a>
+</div>
+
+<div>
+    @{ 
+        string subjectName = System.String.Empty;
+    }
+        @foreach (var marks in Model.marks)
+        {
+            if(!subjectName.Equals(marks.Subject.SubjectName))
+            {
+                <h2>@marks.Subject.SubjectName</h2>
+            }
+
+
+            <a>@marks.TheMark </a>
+
+            subjectName = marks.Subject.SubjectName;
+        }
+    </div>
+
 
