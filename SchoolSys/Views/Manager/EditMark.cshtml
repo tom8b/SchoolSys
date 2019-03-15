@@ -1,0 +1,47 @@
+﻿@model Mark
+@{
+    ViewData["Title"] = "EditMark";
+}
+
+<h1>EditMark</h1>
+
+<div>
+    <label asp-for="@Model.Student.FirstName"></label>
+    <a>: @Model.Student.FirstName</a>
+    <br />
+    <label asp-for="@Model.Student.LastName"></label>
+    <a>: @Model.Student.LastName</a>
+    <br />
+    <label asp-for="@Model.Student.PESEL"></label>
+    <a>: @Model.Student.PESEL</a>
+    <br />
+    <label asp-for="@Model.Subject.SubjectName"></label>
+    <a>: @Model.Subject.SubjectName </a>
+    <br />
+    <label asp-for="@Model.TheMark"></label>
+    <a>: @Model.TheMark </a>
+    <br />
+</div>
+<hr />
+<h3>Edit mark</h3>
+<div>
+    <form method="post">
+        <div>
+            <label asp-for="@Model.TheMark"></label>
+            <select asp-for="@Model.TheMark">
+                <option value="2">2.0</option>
+                <option value="2,5">2.5</option>
+                <option value="3">3.0</option>
+                <option value="3,5">3.5</option>
+                <option value="4">4.0</option>
+                <option value="4,5">4.5</option>
+                <option value="5">5.0</option>
+
+            </select>
+            <span asp-validation-for="@Model.TheMark"></span>
+        </div>
+        <div>
+            <input type="submit" value="edit" />
+        </div>
+    </form>
+</div>

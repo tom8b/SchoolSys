@@ -1,0 +1,38 @@
+﻿@model SchoolSys.DTO.newMark
+
+@{
+    ViewData["Title"] = "AddMark";
+}
+
+<h1>AddMark</h1>
+
+<h3>@Model.student.FirstName @Model.student.LastName</h3>
+
+
+
+<div>
+    <form method="post">
+        
+        <label asp-for="@Model.TheMark.Subject"></label>
+        <select asp-for="@Model.TheMark.Subject.SubjectName"
+                asp-items="@Model.Subjects"></select>
+        <span asp-validation-for="@Model.TheMark.Subject.SubjectName"></span>
+
+        <label asp-for="@Model.TheMark.TheMark"></label>
+        <select asp-for="@Model.TheMark.TheMark">
+            <option value="2">2.0</option>
+            <option value="2,5">2.5</option>
+            <option value="3">3.0</option>
+            <option value="3,5">3.5</option>
+            <option value="4">4.0</option>
+            <option value="4,5">4.5</option>
+            <option value="5">5.0</option>
+        </select>
+        <span asp-validation-for="@Model.TheMark.TheMark"></span>
+        <input type="hidden" asp-for="@Model.TheMark.Student.Id" value="@Model.student.Id" />
+
+
+        <input type="submit" value="Add Mark" />
+    </form>
+</div>
+

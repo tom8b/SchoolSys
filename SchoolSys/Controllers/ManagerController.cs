@@ -71,8 +71,76 @@ namespace SchoolSys.Controllers
             var model = _student.GetStudentWithTheirMarks(id);
             return View(model);
         }
+        
+        public IActionResult EditMark(int id)
+        {
+            var model = _manager.GetMarkDetails(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditMark(Mark EdittedMark)
+        {
+            _manager.EditMark(EdittedMark.Id, EdittedMark.TheMark);
+            var studentId = _student.GetStudentByMark(EdittedMark.Id).Id;
+            return RedirectToAction("StudentDetail", new { id = studentId });
+        }
+
+        public IActionResult AddClass()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddClass(Class newClass)
+        {
+            _manager.AddClass(newClass);
+            return RedirectToAction("Index", "Information", null);
+        }
+
+        
+        public IActionResult AddMark(int id)
+        {
+
+            var model = new newMark();
+            
+
+            model.student = _student.GetStudentById(id);
+
+            var subjects = _manager.GetAllSubjects();
+
+            model.Subjects = subjects.Select(c => new SelectListItem
+            {
+                Value = c.SubjectName,
+                Text = c.SubjectName
+            });
 
 
+            return View(model);
+        }
 
+        [HttpPost]
+        public IActionResult AddMark(newMark NewMark)
+        {
+            NewMark.TheMark.Student = _student.GetStudentById(NewMark.TheMark.Student.Id);
+
+            NewMark.TheMark.Subject = _manager.GetSubjectByName(NewMark.TheMark.Subject.SubjectName);
+            _manager.AddMark(NewMark.TheMark);
+            
+
+           
+            return RedirectToAction("StudentDetail", new { id = NewMark.TheMark.Student.Id });
+            
+        }
+
+        public IActionResult DeleteMark(int id)
+        {
+            var studentId = _manager.GetStudentByMarkId(id).Id;
+            _manager.RemoveMark(id);
+
+            return RedirectToAction("StudentDetail", new { id = studentId });
+        }
     }
 }

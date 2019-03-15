@@ -7,5 +7,6 @@
 
 @foreach (var student in Model)
 {
-<a> @student.FirstName @student.LastName</a>
+<a asp-action="StudentDetail" asp-controller="Manager" asp-route-id="@student.Id"> @student.FirstName @student.LastName</a>
+    
 }

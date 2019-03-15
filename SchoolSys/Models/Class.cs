@@ -14,7 +14,7 @@ namespace SchoolSys.Models
 
         public virtual IEnumerable<Student> ClassMembers { get; set; }
 
-        [ForeignKey("TutorForeignKey")]
-        public virtual Teacher Tutor { get; set; }
+        //[ForeignKey("TutorForeignKey")]
+        //public virtual Teacher Tutor { get; set; }
     }
 }

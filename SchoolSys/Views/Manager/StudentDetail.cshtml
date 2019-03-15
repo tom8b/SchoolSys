@@ -8,36 +8,51 @@
 <div>
     <label asp-for="@Model.student.FirstName"></label>
     <a>: @Model.student.FirstName</a>
+    <br />
     <label asp-for="@Model.student.LastName"></label>
     <a>: @Model.student.LastName</a>
+    <br />
     <label asp-for="@Model.student.PESEL"></label>
     <a>: @Model.student.PESEL</a>
+    <br />
     <label asp-for="@Model.student.Address"></label>
     <a>: @Model.student.Address</a>
+    <br />
     <label asp-for="@Model.student.TelephoneNumber"></label>
     <a>: @Model.student.TelephoneNumber</a>
+    <br />
     <label asp-for="@Model.student.MailAddress"></label>
     <a>: @Model.student.MailAddress</a>
+    <br />
     <label asp-for="@Model.StudentClass.ClassName"></label>
     <a>: @Model.StudentClass.ClassName</a>
+    <br />
 </div>
 
 <div>
-    @{ 
+    @{
         string subjectName = System.String.Empty;
     }
-        @foreach (var marks in Model.marks)
+
+    <a asp-action="AddMark" asp-route-id="@Model.student.Id">ADD NEW MARK</a>
+
+    @foreach (var marks in Model.marks)
+    {
+        if (!subjectName.Equals(marks.Subject.SubjectName))
         {
-            if(!subjectName.Equals(marks.Subject.SubjectName))
-            {
-                <h2>@marks.Subject.SubjectName</h2>
-            }
+            <h2>@marks.Subject.SubjectName</h2>
 
 
-            <a>@marks.TheMark </a>
-
-            subjectName = marks.Subject.SubjectName;
         }
-    </div>
+
+
+        <a>@marks.TheMark </a>
+
+        <a asp-action="EditMark" asp-route-id="@marks.Id"><input type="button" value="Edit" /></a>
+        <a asp-action="DeleteMark" asp-route-id="@marks.Id"><input type="button" value="DELETE" /></a>
+
+        subjectName = marks.Subject.SubjectName;
+    }
+</div>
 
 

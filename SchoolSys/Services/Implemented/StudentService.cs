@@ -45,6 +45,14 @@ namespace SchoolSys.Services.Implemented
                 .FirstOrDefault(s => s.Id == id);
         }
 
+        public Student GetStudentByMark(int MarkId)
+        {
+            return _context.Marks
+                .Include(m => m.Student)
+                .FirstOrDefault(m => m.Id == MarkId)
+                .Student;
+        }
+
         public IEnumerable<Student> GetStudentsFromClass(int classId)
         {
             return _context.Classes

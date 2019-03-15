@@ -1,0 +1,15 @@
+﻿@model Class
+
+@{
+    ViewData["Title"] = "AddClass";
+}
+
+<h1>AddClass</h1>
+
+<form method="post">
+<label asp-for="@Model.ClassName"></label>
+    <input asp-for="@Model.ClassName" />
+    <span asp-validation-for="@Model.ClassName"></span>
+    
+    <input type="submit" value="Add Class" />
+</form>

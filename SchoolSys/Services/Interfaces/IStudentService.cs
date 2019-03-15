@@ -11,6 +11,7 @@ namespace SchoolSys.Services.Interfaces
     {
         IEnumerable<Student> GetAllStudents();
         Student GetStudentById(int id);
+        Student GetStudentByMark(int MarkId);
         StudentWithMarksViewModel GetStudentWithTheirMarks(int id);
 
         #region classes
