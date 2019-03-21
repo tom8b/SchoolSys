@@ -1,0 +1,22 @@
+﻿@model SchoolSys.DataViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+
+<form method="post">
+    <label asp-for="@Model.Username"></label>
+    <input asp-for="@Model.Username" />
+    <span asp-validation-for="@Model.Username"></span>
+
+    <label asp-for="@Model.Password"></label>
+    <input type="password" asp-for="@Model.Password" />
+    <span asp-validation-for="@Model.Password"></span>
+
+    <input type="submit" value="Login" />
+
+
+</form>

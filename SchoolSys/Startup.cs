@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SchoolSys.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SchoolSys.Data;
 using SchoolSys.Services.Implemented;
 using SchoolSys.Services.Interfaces;
+using AutoMapper;
 
 namespace SchoolSys
 {
@@ -36,13 +38,20 @@ namespace SchoolSys
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<SchoolContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<SchoolContext>();
+
+
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IManagerService, ManagerService>();
 
-
-            services.AddDbContext<SchoolContext>(options => options
-            .UseSqlServer(Configuration
-            .GetConnectionString("SchoolDatabase")));
+            //services.AddAutoMapper();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -54,6 +63,7 @@ namespace SchoolSys
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -65,6 +75,8 @@ namespace SchoolSys
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

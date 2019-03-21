@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolSys.Data;
 
 namespace SchoolSys.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20190321105713_identity updated")]
+    partial class identityupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,13 +271,6 @@ namespace SchoolSys.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("SchoolSys.Models.Admin", b =>
-                {
-                    b.HasBaseType("SchoolSys.Models.Person");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
             modelBuilder.Entity("SchoolSys.Models.Parent", b =>
                 {
                     b.HasBaseType("SchoolSys.Models.Person");
@@ -294,6 +289,8 @@ namespace SchoolSys.Migrations
                     b.Property<int?>("ClassId");
 
                     b.Property<int?>("SubjectId");
+
+                    b.Property<string>("test");
 
                     b.HasIndex("ClassId");
 

@@ -1,0 +1,30 @@
+﻿@model SchoolSys.DataViewModels.StudentWithMarksViewModel
+@{
+    ViewData["Title"] = "MyMarks";
+}
+
+<h1>MyMarks</h1>
+<h3>@Model.student.FirstName @Model.student.LastName</h3>
+<hr />
+
+<div>
+    @{
+        string subjectName = System.String.Empty;
+    }
+
+    @foreach (var marks in Model.marks)
+    {
+        if (!subjectName.Equals(marks.Subject.SubjectName))
+        {
+            <h2>@marks.Subject.SubjectName</h2>
+
+
+        }
+
+
+        <a>@marks.TheMark </a>
+
+
+        subjectName = marks.Subject.SubjectName;
+    }
+</div>

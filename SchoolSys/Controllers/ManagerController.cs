@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSys.DataViewModels;
@@ -27,8 +28,7 @@ namespace SchoolSys.Controllers
         {
             return View();
         }
-
-        
+[Authorize]
         public IActionResult AddStudent()
         {
             var classes = _student.GetAllClasses();
@@ -53,7 +53,6 @@ namespace SchoolSys.Controllers
             {
                 return View(newStudent) ;
             }
-
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NewStudent, Student>())
                 .CreateMapper();
 
@@ -70,6 +69,7 @@ namespace SchoolSys.Controllers
         {
             var model = _student.GetStudentWithTheirMarks(id);
             return View(model);
+            
         }
         
         public IActionResult EditMark(int id)

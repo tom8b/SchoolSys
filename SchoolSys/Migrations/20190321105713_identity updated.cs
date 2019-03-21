@@ -2,22 +2,21 @@
 
 namespace SchoolSys.Migrations
 {
-    public partial class AddedTheMarkattribute : Migration
+    public partial class identityupdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "TheMark",
-                table: "Marks",
-                nullable: false,
-                defaultValue: 0m);
+            migrationBuilder.AddColumn<string>(
+                name: "test",
+                table: "Person",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TheMark",
-                table: "Marks");
+                name: "test",
+                table: "Person");
         }
     }
 }

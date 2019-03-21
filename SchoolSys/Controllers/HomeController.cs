@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SchoolSys.Data;
 using SchoolSys.Models;
 
@@ -12,21 +13,25 @@ namespace SchoolSys.Controllers
 {
     public class HomeController : Controller
     {
-        private SchoolContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public HomeController(SchoolContext context)
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
+        [Authorize(Roles = "Student")]
         public IActionResult Index()
         {
-           
+            
             return View();
+
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Privacy()
         {
+
             return View();
         }
 
