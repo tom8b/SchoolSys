@@ -1,0 +1,14 @@
+﻿@model SchoolSys.Models.Subject
+@{
+    ViewData["Title"] = "AddSubject";
+}
+
+<h1>AddSubject</h1>
+
+<form method="post" >
+    <label asp-for="@Model.SubjectName">
+</label>
+    <input asp-for="@Model.SubjectName" />
+    <span asp-validation-for="@Model.SubjectName"></span>
+    <input type="submit" value="Add" />
+</form>

@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SchoolSys.Data;
+using SchoolSys.DataViewModels;
 using SchoolSys.Models;
 using SchoolSys.Services.Interfaces;
 using System;
@@ -12,10 +14,12 @@ namespace SchoolSys.Services.Implemented
     public class ManagerService : IManagerService
     {
         private SchoolContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public ManagerService(SchoolContext context)
+        public ManagerService(SchoolContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public void AddClass(Class newClass)
@@ -50,6 +54,45 @@ namespace SchoolSys.Services.Implemented
             return _context.Subjects;
         }
 
+        /// <summary>
+        /// Returns Person Id of the current user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int GetCurrentPersonId(int userId)
+        {
+            var personId = _context.Users
+                .Include(u => u.ThePerson)
+                .FirstOrDefault(u => u.Id.Equals(userId.ToString()))
+                .ThePerson.Id;
+
+            return personId;
+        }
+
+        //testowa klasa
+        public StudentWithMarksViewModel GetStudentWithTheirMarks(string userId)
+        {
+
+            var model = new StudentWithMarksViewModel();
+
+            var student = (Student)_context.Users
+                .Include(u => u.ThePerson)
+                .FirstOrDefault(u => u.Id.Equals(userId.ToString()))
+                .ThePerson;
+
+            var marks = _context.Marks
+                .Include(m => m.Subject)
+                .Where(m => m.Student.Id == student.Id)
+                .OrderBy(m => m.Subject.Id);
+
+            model.marks = marks;
+            model.student = student;
+            model.StudentClass = student.Class;
+
+            return model;
+
+        }
+
         public Mark GetMarkDetails(int markId)
         {
             return _context.Marks.Include(m => m.Student).Include(m => m.Subject).FirstOrDefault(m => m.Id == markId);
@@ -76,6 +119,20 @@ namespace SchoolSys.Services.Implemented
         {
             var mark = _context.Marks.FirstOrDefault(m => m.Id == markId);
             _context.Remove(mark);
+            _context.SaveChanges();
+        }
+
+       public void AddStudentToClass(Student student, Class studentClass)
+        {
+            _context.Update(student);
+            student.Class = studentClass;
+            _context.SaveChanges();
+
+        }
+
+        public void AddSubject(Subject newSubject)
+        {
+            _context.Add(newSubject);
             _context.SaveChanges();
         }
     }

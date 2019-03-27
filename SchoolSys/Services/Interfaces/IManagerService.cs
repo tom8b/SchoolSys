@@ -1,4 +1,5 @@
-﻿using SchoolSys.Models;
+﻿using SchoolSys.DataViewModels;
+using SchoolSys.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace SchoolSys.Services.Interfaces
         void AddStudent(Student newStudent);
         void AddMark(Mark newMark);
         void EditMark(int markId, decimal newMark);
+        void AddStudentToClass(Student student, Class studentClass);
+        void AddSubject(Subject newSubject);
 
         Mark GetMarkDetails(int markId);
 
@@ -23,5 +26,10 @@ namespace SchoolSys.Services.Interfaces
         Student GetStudentByMarkId(int markId);
 
         IEnumerable<Subject> GetAllSubjects();
+
+        #region method based on asp net users
+        int GetCurrentPersonId(int userId);
+        StudentWithMarksViewModel GetStudentWithTheirMarks(string userId);
+        #endregion
     }
 }

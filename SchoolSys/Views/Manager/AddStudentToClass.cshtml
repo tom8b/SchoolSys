@@ -1,0 +1,15 @@
+﻿@model SchoolSys.DataViewModels.StudentClassesViewModels
+@{
+    ViewData["Title"] = "AddStudentToClass";
+}
+
+<h1>AddStudentToClass</h1>
+
+<h1> @Model.FirstName @Model.LastName </h1>
+
+<form method="post">
+<label asp-for="@Model.Classes"></label>
+    <select asp-for="@Model.ChoosenClass" asp-items="@Model.Classes"></select>
+    <input type="hidden" asp-for="@Model.StudentId" value="@Model.StudentId" />
+    <input type="submit" value="Add to class" />
+</form>

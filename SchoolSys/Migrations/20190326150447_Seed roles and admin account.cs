@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SchoolSys.Migrations
 {
-    public partial class initialcreate : Migration
+    public partial class Seedrolesandadminaccount : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -237,6 +237,26 @@ namespace SchoolSys.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "71a304b2-a157-4e3a-ab50-31ab802259bc", "Admin", "ADMIN" },
+                    { "a18be9a0-ad65-4ff8-ac17-11bd9344e575", "87065fee-05b2-41aa-b153-000a9f705ddc", "Student", "STUDENT" },
+                    { "a1ade9a1-4565-4aac-ac17-11bd9344e575", "501f84f3-c343-4945-972d-647db28e8da5", "Teacher", "TEACHER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "ThePersonId", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "031ab9b2-acff-42cd-b30d-b7a1c410a25f", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEGws9bOpjPEQ+8bQQN5M3YWvPxoOkYOIC1Zy+VhYrx3OUHiewQF4Ccu8O+r/Sv5l4g==", null, false, "", null, false, "admin@admin.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", "a18be9c0-aa65-4af8-bd17-00bd9344e575" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

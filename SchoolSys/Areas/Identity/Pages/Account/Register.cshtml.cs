@@ -14,7 +14,8 @@ using SchoolSys.Models;
 
 namespace SchoolSys.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+   // [AllowAnonymous]
+   [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -126,7 +127,7 @@ namespace SchoolSys.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _userManager.AddToRoleAsync(user, role);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                   // await _signInManager.SignInAsync(user, isPersistent: false);
                     
                     return LocalRedirect(returnUrl);
                 }

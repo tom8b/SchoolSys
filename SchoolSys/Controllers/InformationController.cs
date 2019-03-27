@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolSys.Services.Interfaces;
 
@@ -16,6 +17,7 @@ namespace SchoolSys.Controllers
             _student = student;
         }
 
+        [Authorize(Roles = "Teacher,Admin")]
         public IActionResult Index()
         {
             var model = _student.GetAllClasses();
@@ -23,6 +25,7 @@ namespace SchoolSys.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Teacher,Admin")]
         public IActionResult ClassDetail(int id)
         {
             var model = _student.GetStudentsFromClass(id);

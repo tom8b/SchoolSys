@@ -33,8 +33,11 @@
     @{
         string subjectName = System.String.Empty;
     }
-
+    @if (this.User.IsInRole("Teacher"))
+    {
     <a asp-action="AddMark" asp-route-id="@Model.student.Id">ADD NEW MARK</a>
+    }
+    
 
     @foreach (var marks in Model.marks)
     {
@@ -48,8 +51,10 @@
 
         <a>@marks.TheMark </a>
 
-        <a asp-action="EditMark" asp-route-id="@marks.Id"><input type="button" value="Edit" /></a>
-        <a asp-action="DeleteMark" asp-route-id="@marks.Id"><input type="button" value="DELETE" /></a>
+        @if (this.User.IsInRole("Teacher"))
+        {<a asp-action="EditMark" asp-route-id="@marks.Id"><input type="button" value="Edit" /></a>
+            <a asp-action="DeleteMark" asp-route-id="@marks.Id"><input type="button" value="DELETE" /></a>}
+
 
         subjectName = marks.Subject.SubjectName;
     }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SchoolSys.Data;
 using SchoolSys.Services.Interfaces;
 
 namespace SchoolSys.Controllers
@@ -12,11 +11,13 @@ namespace SchoolSys.Controllers
     {
         private IManagerService _manager;
         private IStudentService _student;
+        private UserManager<ApplicationUser> _userManager;
 
-        public StudentController(IManagerService manager, IStudentService student)
+        public StudentController(IManagerService manager, IStudentService student, UserManager<ApplicationUser> userManager)
         {
             _manager = manager;
             _student = student;
+            _userManager = userManager;
         }
         
         //[Authorize(AuthenticationSchemes = "Application.Identity")]
@@ -25,10 +26,18 @@ namespace SchoolSys.Controllers
             return View();
         }
 
-        //public IActionResult MyMarks(int id)
-        //{
-        //    var model = _student.GetStudentWithTheirMarks(id);
-        //    return View(model);
-        //}
+        [Authorize(Roles = "Student")]
+        public IActionResult MyMarks()
+        {
+           //var userId = _userManager.GetUserAsync(HttpContext.User).Id;
+            var userId = _userManager.GetUserId(HttpContext.User);
+            //var theStudentId = _manager.GetCurrentPersonId(userId);
+
+            //var model = _student.GetStudentWithTheirMarks(theStudentId);
+
+            var model = _manager.GetStudentWithTheirMarks(userId);
+
+            return View(model);
+        }
     }
 }

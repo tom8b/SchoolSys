@@ -20,7 +20,7 @@ namespace SchoolSys.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Student")]
+
         public IActionResult Index()
         {
             

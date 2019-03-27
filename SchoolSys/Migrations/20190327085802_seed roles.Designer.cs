@@ -10,8 +10,8 @@ using SchoolSys.Data;
 namespace SchoolSys.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20190317205854_initial create")]
-    partial class initialcreate
+    [Migration("20190327085802_seed roles")]
+    partial class seedroles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,29 @@ namespace SchoolSys.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            ConcurrencyStamp = "c01b892c-d713-4ab6-a9cd-bef50d4305d5",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "a18be9a0-ad65-4ff8-ac17-11bd9344e575",
+                            ConcurrencyStamp = "4da7f362-fd8d-4f18-a56e-6104ef1fb978",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "a1ade9a1-4565-4aac-ac17-11bd9344e575",
+                            ConcurrencyStamp = "b35d9f26-9b57-4f02-ade7-2f5e9971921b",
+                            Name = "Teacher",
+                            NormalizedName = "TEACHER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -116,6 +139,13 @@ namespace SchoolSys.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            RoleId = "a18be9c0-aa65-4af8-bd17-00bd9344e575"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -188,6 +218,24 @@ namespace SchoolSys.Migrations
                     b.HasIndex("ThePersonId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "422348c9-096e-45be-8349-71350d274965",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJOKFKtaYEMtDd63gFUXxkV6+8/vqSy7D7Sqq3vuMFtZuGGRxEPKGTJ2npTDpuuzeA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("SchoolSys.Models.Class", b =>
@@ -269,6 +317,13 @@ namespace SchoolSys.Migrations
                     b.HasIndex("SubjectTeacherId");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("SchoolSys.Models.Admin", b =>
+                {
+                    b.HasBaseType("SchoolSys.Models.Person");
+
+                    b.HasDiscriminator().HasValue("Admin");
                 });
 
             modelBuilder.Entity("SchoolSys.Models.Parent", b =>

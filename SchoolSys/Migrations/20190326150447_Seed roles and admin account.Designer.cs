@@ -10,8 +10,8 @@ using SchoolSys.Data;
 namespace SchoolSys.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20190316113216_Initial Create")]
-    partial class InitialCreate
+    [Migration("20190326150447_Seed roles and admin account")]
+    partial class Seedrolesandadminaccount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,29 @@ namespace SchoolSys.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            ConcurrencyStamp = "71a304b2-a157-4e3a-ab50-31ab802259bc",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "a18be9a0-ad65-4ff8-ac17-11bd9344e575",
+                            ConcurrencyStamp = "87065fee-05b2-41aa-b153-000a9f705ddc",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "a1ade9a1-4565-4aac-ac17-11bd9344e575",
+                            ConcurrencyStamp = "501f84f3-c343-4945-972d-647db28e8da5",
+                            Name = "Teacher",
+                            NormalizedName = "TEACHER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -87,9 +110,11 @@ namespace SchoolSys.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -114,15 +139,24 @@ namespace SchoolSys.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            RoleId = "a18be9c0-aa65-4af8-bd17-00bd9344e575"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -184,6 +218,24 @@ namespace SchoolSys.Migrations
                     b.HasIndex("ThePersonId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "031ab9b2-acff-42cd-b30d-b7a1c410a25f",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGws9bOpjPEQ+8bQQN5M3YWvPxoOkYOIC1Zy+VhYrx3OUHiewQF4Ccu8O+r/Sv5l4g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("SchoolSys.Models.Class", b =>
@@ -265,6 +317,13 @@ namespace SchoolSys.Migrations
                     b.HasIndex("SubjectTeacherId");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("SchoolSys.Models.Admin", b =>
+                {
+                    b.HasBaseType("SchoolSys.Models.Person");
+
+                    b.HasDiscriminator().HasValue("Admin");
                 });
 
             modelBuilder.Entity("SchoolSys.Models.Parent", b =>

@@ -28,57 +28,58 @@ namespace SchoolSys.Controllers
         {
             return View();
         }
-[Authorize]
-        public IActionResult AddStudent()
-        {
-            var classes = _student.GetAllClasses();
-            var classesModel = classes.Select(c => new SelectListItem
-            {
-                Text = c.ClassName,
-                Value = c.ClassName
+//[Authorize]
+//        public IActionResult AddStudent()
+//        {
+//            var classes = _student.GetAllClasses();
+//            var classesModel = classes.Select(c => new SelectListItem
+//            {
+//                Text = c.ClassName,
+//                Value = c.ClassName
                 
                             
-            });
+//            });
 
-            var model = new AddStudentViewModel();
-            model.Classes = classesModel;
+//            var model = new AddStudentViewModel();
+//            model.Classes = classesModel;
             
-            return View(model);
-        }
+//            return View(model);
+//        }
 
-        [HttpPost]
-        public IActionResult AddStudent(NewStudent newStudent)
-        {
-            if(!ModelState.IsValid)
-            {
-                return View(newStudent) ;
-            }
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NewStudent, Student>())
-                .CreateMapper();
+        //[HttpPost]
+        //public IActionResult AddStudent(NewStudent newStudent)
+        //{
+        //    if(!ModelState.IsValid)
+        //    {
+        //        return View(newStudent) ;
+        //    }
+        //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NewStudent, Student>())
+        //        .CreateMapper();
 
-            var NewStudent = mapper.Map<Student>(newStudent);
+        //    var NewStudent = mapper.Map<Student>(newStudent);
 
-            NewStudent.Class = _student.getClassByName(newStudent.ClassName);
+        //    NewStudent.Class = _student.getClassByName(newStudent.ClassName);
 
-            _manager.AddStudent(NewStudent);
+        //    _manager.AddStudent(NewStudent);
 
-            return RedirectToAction("Index", "Information", null);
-        }
+        //    return RedirectToAction("Index", "Information", null);
+        //}
 
+        [Authorize(Roles ="Teacher,Admin")]
         public IActionResult StudentDetail(int id)
         {
             var model = _student.GetStudentWithTheirMarks(id);
             return View(model);
             
         }
-        
+        [Authorize(Roles = "Teacher")]
         public IActionResult EditMark(int id)
         {
             var model = _manager.GetMarkDetails(id);
 
             return View(model);
         }
-
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public IActionResult EditMark(Mark EdittedMark)
         {
@@ -86,13 +87,13 @@ namespace SchoolSys.Controllers
             var studentId = _student.GetStudentByMark(EdittedMark.Id).Id;
             return RedirectToAction("StudentDetail", new { id = studentId });
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult AddClass()
         {
 
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddClass(Class newClass)
         {
@@ -100,7 +101,7 @@ namespace SchoolSys.Controllers
             return RedirectToAction("Index", "Information", null);
         }
 
-        
+        [Authorize(Roles = "Teacher")]
         public IActionResult AddMark(int id)
         {
 
@@ -121,6 +122,7 @@ namespace SchoolSys.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public IActionResult AddMark(newMark NewMark)
         {
@@ -134,13 +136,60 @@ namespace SchoolSys.Controllers
             return RedirectToAction("StudentDetail", new { id = NewMark.TheMark.Student.Id });
             
         }
-
+        [Authorize(Roles = "Teacher")]
         public IActionResult DeleteMark(int id)
         {
             var studentId = _manager.GetStudentByMarkId(id).Id;
             _manager.RemoveMark(id);
 
             return RedirectToAction("StudentDetail", new { id = studentId });
+        }
+
+        public IActionResult AddStudentToClass(int id)
+        {
+            var student = _student.GetStudentById(id);
+            var classes = _student.GetAllClasses().Select(c => new SelectListItem
+            {
+                Value = c.ClassName,
+                Text = c.ClassName
+            });
+
+            var model = new StudentClassesViewModels()
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Classes = classes,
+                StudentId = student.Id
+                
+            };
+
+            return View(model);
+        }
+        
+        [HttpPost]
+        public IActionResult AddStudentToClass(StudentClassesViewModels input)
+        {
+            var student = _student.GetStudentById(input.StudentId);
+            var studentClass = _student.getClassByName(input.ChoosenClass.ToString());
+            _manager.AddStudentToClass(student, studentClass);
+
+            return RedirectToAction("Index", "Home", null);
+        }
+
+        [Authorize(Roles ="Admin")]
+        public IActionResult AddSubject()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult AddSubject(Subject newSubject)
+        {
+            if(ModelState.IsValid)
+            {
+                _manager.AddSubject(newSubject);
+            }
+            return RedirectToAction("Index", "Home", null);
         }
     }
 }
