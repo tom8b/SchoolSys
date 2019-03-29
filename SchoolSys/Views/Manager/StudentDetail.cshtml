@@ -24,8 +24,17 @@
     <label asp-for="@Model.student.MailAddress"></label>
     <a>: @Model.student.MailAddress</a>
     <br />
+    <a asp-action="EditUser" asp-route-id="@Model.student.Id"><input type="button" value="Edit User Data" /></a>
+    <br />
+
     <label asp-for="@Model.StudentClass.ClassName"></label>
-    <a>: @Model.StudentClass.ClassName</a>
+    @if (!(Model.StudentClass == null))
+    {
+
+        <a>: @Model.StudentClass.ClassName</a>
+
+    }
+    <a asp-action="AddStudentToClass" asp-route-id="@Model.student.Id"><input type="button" value="Change class" /></a>
     <br />
 </div>
 

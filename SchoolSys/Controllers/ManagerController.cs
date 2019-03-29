@@ -183,13 +183,44 @@ namespace SchoolSys.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddSubject(Subject newSubject)
+        public async Task<IActionResult> AddSubject(Subject newSubject)
         {
             if(ModelState.IsValid)
             {
-                _manager.AddSubject(newSubject);
+                //await new Task.Run(() => _manager.AddSubject(newSubject));
+                // await _manager.AddSubject(newSubject);
+                await Task.Run(() => _manager.AddSubject(newSubject));
+
             }
             return RedirectToAction("Index", "Home", null);
+        }
+
+        public async Task<IActionResult> UsersList()
+        {
+            var model = await Task.Run(() => _manager.GetPeople());
+
+            return View(model);
+        }
+
+        public IActionResult EditUser(int id)
+        {
+           var model = _manager.GetPerson(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditUser(Person editedPerson)
+        {
+            _manager.UpdatePersonDetails(editedPerson);
+            return RedirectToAction("UsersList");
+        }
+
+        public IActionResult TeacherDetail(int id)
+        {
+            var model = _manager.GetPerson(id);
+            return View(model);
+
         }
     }
 }

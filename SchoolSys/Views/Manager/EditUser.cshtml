@@ -1,0 +1,41 @@
+﻿@model SchoolSys.Models.Person
+
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<h1>EditUser</h1>
+
+<form method="post">
+    <label asp-for="@Model.FirstName"></label>
+    <input asp-for="@Model.FirstName" />
+    <span asp-validation-for="@Model.FirstName"></span>
+
+    <label asp-for="@Model.LastName"></label>
+    <input asp-for="@Model.LastName" />
+    <span asp-validation-for="@Model.LastName"></span>
+
+    <label asp-for="@Model.PESEL"></label>
+    <input asp-for="@Model.PESEL" />
+    <span asp-validation-for="@Model.PESEL"></span>
+
+    <label asp-for="@Model.Address"></label>
+    <input asp-for="@Model.Address" />
+    <span asp-validation-for="@Model.Address"></span>
+
+    <label asp-for="@Model.TelephoneNumber"></label>
+    <input asp-for="@Model.TelephoneNumber" />
+    <span asp-validation-for="@Model.TelephoneNumber"></span>
+
+    <label asp-for="@Model.MailAddress"></label>
+    <input asp-for="@Model.MailAddress" />
+    <span asp-validation-for="@Model.MailAddress"></span>
+
+    <input type="submit" value="Save" />
+
+    
+
+
+
+</form>
+   <a asp-action="StudentDetail" asp-route-id="@Model.Id"><input type="submit" value="Back" /></a>    

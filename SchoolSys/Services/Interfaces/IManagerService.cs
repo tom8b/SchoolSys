@@ -1,4 +1,5 @@
 ﻿using SchoolSys.DataViewModels;
+using SchoolSys.DTO;
 using SchoolSys.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace SchoolSys.Services.Interfaces
         void EditMark(int markId, decimal newMark);
         void AddStudentToClass(Student student, Class studentClass);
         void AddSubject(Subject newSubject);
+        void UpdatePersonDetails(Person editedPerson);
 
         Mark GetMarkDetails(int markId);
 
@@ -26,6 +28,10 @@ namespace SchoolSys.Services.Interfaces
         Student GetStudentByMarkId(int markId);
 
         IEnumerable<Subject> GetAllSubjects();
+
+        Task<PeopleDTO> GetPeople();
+
+        Person GetPerson(int personId);
 
         #region method based on asp net users
         int GetCurrentPersonId(int userId);

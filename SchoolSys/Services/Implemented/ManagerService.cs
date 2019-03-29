@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolSys.Data;
 using SchoolSys.DataViewModels;
+using SchoolSys.DTO;
 using SchoolSys.Models;
 using SchoolSys.Services.Interfaces;
 using System;
@@ -133,6 +134,52 @@ namespace SchoolSys.Services.Implemented
         public void AddSubject(Subject newSubject)
         {
             _context.Add(newSubject);
+            _context.SaveChanges();
+        }
+
+        public async Task<PeopleDTO> GetPeople()
+        {
+
+            var people = new PeopleDTO();
+
+            people.admins = await Task.Run(() => _context.Admins);
+            people.students = await Task.Run(() => _context.Students.Include(s => s.Class));
+            people.teachers = await Task.Run(() => _context.Teachers);
+
+            return people;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="kindOfUser">Student, Admin, or Teacher</param>
+        /// <returns></returns>
+        public Person GetPerson(int personId)
+        {
+            // Person person = await Task.Run(() => _context.Students.FirstOrDefault(s => s.Id == personId));
+            //person = await Task.Run(() => _context.Teachers.FirstOrDefault(t => t.Id == personId));
+            //person = await Task.Run(() => _context.Admins.FirstOrDefault(a => a.Id == personId));
+            var person = new Person();
+       
+                    if((person = _context.Students.FirstOrDefault(s => s.Id == personId) )== null)
+            {
+                if((person = _context.Teachers.FirstOrDefault(t => t.Id == personId))== null)
+                {
+                    person = _context.Admins.FirstOrDefault(a => a.Id == personId);
+                }
+            }
+                    
+
+                            
+            
+
+            return person;
+
+        }
+
+        public void UpdatePersonDetails(Person editedPerson)
+        {
+            _context.Update(editedPerson);
             _context.SaveChanges();
         }
     }

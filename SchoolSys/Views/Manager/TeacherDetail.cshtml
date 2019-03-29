@@ -1,0 +1,35 @@
+﻿@model SchoolSys.Models.Teacher
+@{
+    ViewData["Title"] = "TeacherDetail";
+}
+
+<h1>StudentDetail</h1>
+
+<div>
+    <label asp-for="@Model.FirstName"></label>
+    <a>: @Model.FirstName</a>
+    <br />
+    <label asp-for="@Model.LastName"></label>
+    <a>: @Model.LastName</a>
+    <br />
+    <label asp-for="@Model.PESEL"></label>
+    <a>: @Model.PESEL</a>
+    <br />
+    <label asp-for="@Model.Address"></label>
+    <a>: @Model.Address</a>
+    <br />
+    <label asp-for="@Model.TelephoneNumber"></label>
+    <a>: @Model.TelephoneNumber</a>
+    <br />
+    <label asp-for="@Model.MailAddress"></label>
+    <a>: @Model.MailAddress</a>
+    <br />
+    <a asp-action="EditUser" asp-route-id="@Model.Id"><input type="button" value="Edit User Data" /></a>
+    <br />
+
+   
+</div>
+
+
+
+

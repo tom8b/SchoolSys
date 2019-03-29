@@ -1,0 +1,56 @@
+﻿@model SchoolSys.DTO.PeopleDTO
+@{
+    ViewData["Title"] = "UsersList";
+}
+
+<h1>UsersList</h1>
+
+<h3>Admins</h3>
+<table>
+    @foreach (var admin in Model.admins)
+    {
+        <tr>
+            <td>@admin.FirstName </td>
+            <td>@admin.LastName</td>
+            <td>@admin.PESEL</td>
+            <td>@admin.TelephoneNumber</td>
+            <td>@admin.MailAddress</td>
+            <td>@admin.Address</td>
+        </tr>
+    }
+</table>
+
+<h3>Teachers</h3>
+<table>
+    @foreach (var teacher in Model.teachers)
+    {
+    <tr>
+        <td>@teacher.FirstName </td>
+        <td>@teacher.LastName</td>
+        <td>@teacher.PESEL</td>
+        <td>@teacher.TelephoneNumber</td>
+        <td>@teacher.MailAddress</td>
+        <td>@teacher.Address</td>
+        <td><a asp-action="TeacherDetail" asp-route-id="@teacher.Id">SHOW</a></td>
+    </tr>
+    }
+</table>
+
+<h3>Students</h3>
+<table>
+    @foreach (var student in Model.students)
+    {
+        <tr>
+            <td>@student.FirstName </td>
+            <td>@student.LastName</td>
+            <td>@student.PESEL</td>
+            <td>@student.TelephoneNumber</td>
+            <td>@student.MailAddress</td>
+            <td>@student.Address</td>
+            <td>@if (!(student.Class == null))
+                { @student.Class.ClassName} </td>
+          <td><a asp-action="StudentDetail" asp-route-id="@student.Id">SHOW</a></td>
+        </tr>
+        
+    }
+</table>
