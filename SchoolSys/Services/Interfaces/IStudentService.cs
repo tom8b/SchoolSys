@@ -10,15 +10,15 @@ namespace SchoolSys.Services.Interfaces
     public interface IStudentService
     {
         IEnumerable<Student> GetAllStudents();
-        Student GetStudentById(int id);
-        Student GetStudentByMark(int MarkId);
-        StudentWithMarksViewModel GetStudentWithTheirMarks(int id);
+        Task<Student> GetStudentByIdAsync(int id);
+       // Student GetStudentByMark(int MarkId);
+        Task<StudentWithMarksViewModel> GetStudentWithTheirMarksAsync(int id);
 
         #region classes
         IEnumerable<Class> GetAllClasses();
         IEnumerable<Student> GetStudentsFromClass(int classId);
         Class getClass(int classId);
-        Class getClassByName(string className);
+        Task<Class> getClassByNameAsync(string className);
         
         #endregion
     }

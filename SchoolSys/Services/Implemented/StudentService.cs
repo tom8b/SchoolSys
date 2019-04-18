@@ -34,24 +34,24 @@ namespace SchoolSys.Services.Implemented
             return _context.Classes.FirstOrDefault(c => c.Id == classId);
         }
 
-        public Class getClassByName(string className)
+        public async Task<Class> getClassByNameAsync(string className)
         {
-            return _context.Classes.FirstOrDefault(c => c.ClassName.Equals(className));
+            return await _context.Classes.FirstOrDefaultAsync(c => c.ClassName.Equals(className));
         }
 
-        public Student GetStudentById(int id)
+        public async Task<Student> GetStudentByIdAsync(int id)
         {
-            return _context.Students
-                .FirstOrDefault(s => s.Id == id);
+            return await _context.Students
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Student GetStudentByMark(int MarkId)
-        {
-            return _context.Marks
-                .Include(m => m.Student)
-                .FirstOrDefault(m => m.Id == MarkId)
-                .Student;
-        }
+        //public Student GetStudentByMark(int MarkId)
+        //{
+        //    return _context.Marks
+        //        .Include(m => m.Student)
+        //        .FirstOrDefault(m => m.Id == MarkId)
+        //        .Student;
+        //}
 
         public IEnumerable<Student> GetStudentsFromClass(int classId)
         {
@@ -61,18 +61,18 @@ namespace SchoolSys.Services.Implemented
                 .ClassMembers;
         }
 
-        public StudentWithMarksViewModel GetStudentWithTheirMarks(int id)
+        public async Task<StudentWithMarksViewModel> GetStudentWithTheirMarksAsync(int id)
         {
             var model = new StudentWithMarksViewModel();
 
-            var student = _context.Students
+            var student = await _context.Students
                 .Include(s => s.Class)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefaultAsync(s => s.Id == id);
 
-            var marks = _context.Marks
+            var marks = await Task.Run(() => _context.Marks
                 .Include(m => m.Subject)
                 .Where(m => m.Student.Id == id)
-                .OrderBy(m => m.Subject.Id);
+                .OrderBy(m => m.Subject.Id));
 
             model.marks = marks;
             model.student = student;

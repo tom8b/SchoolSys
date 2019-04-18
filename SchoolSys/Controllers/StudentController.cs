@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace SchoolSys.Controllers
         }
 
         [Authorize(Roles = "Student")]
-        public IActionResult MyMarks()
+        public async Task<IActionResult> MyMarks()
         {
            //var userId = _userManager.GetUserAsync(HttpContext.User).Id;
             var userId = _userManager.GetUserId(HttpContext.User);

@@ -12,26 +12,28 @@ namespace SchoolSys.Services.Interfaces
     {
         void AddStudent(Student newStudent);
         void AddMark(Mark newMark);
-        void EditMark(int markId, decimal newMark);
-        void AddStudentToClass(Student student, Class studentClass);
-        void AddSubject(Subject newSubject);
-        void UpdatePersonDetails(Person editedPerson);
+        Task EditMarkAsync(int markId, decimal newMark);
+        Task AddStudentToClassAsync(Student student, Class studentClass);
+        //void AddSubject(Subject newSubject);
+        Task AddSubjectAsync(Subject newSubject);
+
+        Task UpdatePersonDetailsAsync(Person editedPerson);
 
         Mark GetMarkDetails(int markId);
 
-        void AddClass(Class newClass);
+        Task AddClassAsync(Class newClass);
         void RemoveMark(int markId);
 
         Subject GetSubject(int subjectId);
         Subject GetSubjectByName(string subjectName);
 
-        Student GetStudentByMarkId(int markId);
+        Task<Student> GetStudentByMarkIdAsync(int markId);
 
-        IEnumerable<Subject> GetAllSubjects();
+        Task<IEnumerable<Subject>> GetAllSubjectsAsync();
 
-        Task<PeopleDTO> GetPeople();
+        Task<PeopleDTO> GetPeopleAsync();
 
-        Person GetPerson(int personId);
+        Task<Person> GetPersonAsync(int personId);
 
         #region method based on asp net users
         int GetCurrentPersonId(int userId);

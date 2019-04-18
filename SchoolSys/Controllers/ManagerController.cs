@@ -66,9 +66,9 @@ namespace SchoolSys.Controllers
         //}
 
         [Authorize(Roles ="Teacher,Admin")]
-        public IActionResult StudentDetail(int id)
+        public async Task<IActionResult> StudentDetail(int id)
         {
-            var model = _student.GetStudentWithTheirMarks(id);
+            var model = await _student.GetStudentWithTheirMarksAsync(id);
             return View(model);
             
         }
@@ -81,36 +81,38 @@ namespace SchoolSys.Controllers
         }
         [Authorize(Roles = "Teacher")]
         [HttpPost]
-        public IActionResult EditMark(Mark EdittedMark)
+        public async Task<IActionResult> EditMark(Mark EdittedMark)
         {
-            _manager.EditMark(EdittedMark.Id, EdittedMark.TheMark);
-            var studentId = _student.GetStudentByMark(EdittedMark.Id).Id;
+            await _manager.EditMarkAsync(EdittedMark.Id, EdittedMark.TheMark);
+            var studentId = (await _manager.GetStudentByMarkIdAsync(EdittedMark.Id)).Id;
             return RedirectToAction("StudentDetail", new { id = studentId });
         }
+
         [Authorize(Roles = "Admin")]
         public IActionResult AddClass()
         {
 
             return View();
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddClass(Class newClass)
+        public async Task<IActionResult> AddClass(Class newClass)
         {
-            _manager.AddClass(newClass);
+            await _manager.AddClassAsync(newClass);
             return RedirectToAction("Index", "Information", null);
         }
 
         [Authorize(Roles = "Teacher")]
-        public IActionResult AddMark(int id)
+        public async Task<IActionResult> AddMark(int id)
         {
 
             var model = new newMark();
             
 
-            model.student = _student.GetStudentById(id);
+            model.student = await _student.GetStudentByIdAsync(id);
 
-            var subjects = _manager.GetAllSubjects();
+            var subjects = await _manager.GetAllSubjectsAsync();
 
             model.Subjects = subjects.Select(c => new SelectListItem
             {
@@ -124,9 +126,9 @@ namespace SchoolSys.Controllers
 
         [Authorize(Roles = "Teacher")]
         [HttpPost]
-        public IActionResult AddMark(newMark NewMark)
+        public async Task<IActionResult> AddMark(newMark NewMark)
         {
-            NewMark.TheMark.Student = _student.GetStudentById(NewMark.TheMark.Student.Id);
+            NewMark.TheMark.Student = await _student.GetStudentByIdAsync(NewMark.TheMark.Student.Id);
 
             NewMark.TheMark.Subject = _manager.GetSubjectByName(NewMark.TheMark.Subject.SubjectName);
             _manager.AddMark(NewMark.TheMark);
@@ -136,18 +138,19 @@ namespace SchoolSys.Controllers
             return RedirectToAction("StudentDetail", new { id = NewMark.TheMark.Student.Id });
             
         }
+
         [Authorize(Roles = "Teacher")]
-        public IActionResult DeleteMark(int id)
+        public async Task<IActionResult> DeleteMark(int id)
         {
-            var studentId = _manager.GetStudentByMarkId(id).Id;
+            var studentId = (await _manager.GetStudentByMarkIdAsync(id)).Id;
             _manager.RemoveMark(id);
 
             return RedirectToAction("StudentDetail", new { id = studentId });
         }
 
-        public IActionResult AddStudentToClass(int id)
+        public async Task<IActionResult> AddStudentToClass(int id)
         {
-            var student = _student.GetStudentById(id);
+            var student = await _student.GetStudentByIdAsync(id);
             var classes = _student.GetAllClasses().Select(c => new SelectListItem
             {
                 Value = c.ClassName,
@@ -167,11 +170,11 @@ namespace SchoolSys.Controllers
         }
         
         [HttpPost]
-        public IActionResult AddStudentToClass(StudentClassesViewModels input)
+        public async Task<IActionResult> AddStudentToClass(StudentClassesViewModels input)
         {
-            var student = _student.GetStudentById(input.StudentId);
-            var studentClass = _student.getClassByName(input.ChoosenClass.ToString());
-            _manager.AddStudentToClass(student, studentClass);
+            var student = await _student.GetStudentByIdAsync(input.StudentId);
+            var studentClass = await _student.getClassByNameAsync(input.ChoosenClass.ToString());
+            await _manager.AddStudentToClassAsync(student, studentClass);
 
             return RedirectToAction("Index", "Home", null);
         }
@@ -181,44 +184,43 @@ namespace SchoolSys.Controllers
         {
             return View();
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddSubject(Subject newSubject)
         {
             if(ModelState.IsValid)
             {
-                //await new Task.Run(() => _manager.AddSubject(newSubject));
-                // await _manager.AddSubject(newSubject);
-                await Task.Run(() => _manager.AddSubject(newSubject));
-
+                await _manager.AddSubjectAsync(newSubject);
             }
             return RedirectToAction("Index", "Home", null);
         }
 
         public async Task<IActionResult> UsersList()
         {
-            var model = await Task.Run(() => _manager.GetPeople());
+            var model = await Task.Run(() => _manager.GetPeopleAsync());
 
             return View(model);
         }
 
-        public IActionResult EditUser(int id)
+        public async Task<IActionResult> EditUser(int id)
         {
-           var model = _manager.GetPerson(id);
+           var model = await _manager.GetPersonAsync(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult EditUser(Person editedPerson)
+        public async Task<IActionResult> EditUser(Person editedPerson)
         {
-            _manager.UpdatePersonDetails(editedPerson);
+            await _manager.UpdatePersonDetailsAsync(editedPerson);
             return RedirectToAction("UsersList");
         }
 
-        public IActionResult TeacherDetail(int id)
+        public async Task<IActionResult> TeacherDetail(int id)
         {
-            var model = _manager.GetPerson(id);
+            var model = await _manager.GetPersonAsync(id);
+
             return View(model);
 
         }

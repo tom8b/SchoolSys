@@ -23,10 +23,10 @@ namespace SchoolSys.Services.Implemented
             _userManager = userManager;
         }
 
-        public void AddClass(Class newClass)
+        public async Task AddClassAsync(Class newClass)
         {
-            _context.Add(newClass);
-            _context.SaveChanges();
+            await _context.AddAsync(newClass);
+            await _context.SaveChangesAsync();
         }
 
         public void AddMark(Mark newMark)
@@ -41,18 +41,18 @@ namespace SchoolSys.Services.Implemented
             _context.SaveChanges();
         }
 
-        public void EditMark(int markId, decimal newMark)
+        public async Task EditMarkAsync(int markId, decimal newMark)
         {
-            var mark = _context.Marks.FirstOrDefault(m => m.Id == markId);
+            var mark = await _context.Marks.FirstOrDefaultAsync(m => m.Id == markId);
             _context.Update(mark);
             mark.TheMark = newMark;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 
-        public IEnumerable<Subject> GetAllSubjects()
+        public async Task<IEnumerable<Subject>> GetAllSubjectsAsync()
         {
-            return _context.Subjects;
+            return await Task.Run(() => _context.Subjects);
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace SchoolSys.Services.Implemented
             return _context.Marks.Include(m => m.Student).Include(m => m.Subject).FirstOrDefault(m => m.Id == markId);
         }
 
-        public Student GetStudentByMarkId(int markId)
+        public async Task<Student> GetStudentByMarkIdAsync(int markId)
         {
-            var mark = _context.Marks.Include(m=>m.Student).FirstOrDefault(m => m.Id == markId);
+            var mark = await _context.Marks.Include(m=>m.Student).FirstOrDefaultAsync(m => m.Id == markId);
             return mark.Student;
         }
 
@@ -123,21 +123,27 @@ namespace SchoolSys.Services.Implemented
             _context.SaveChanges();
         }
 
-       public void AddStudentToClass(Student student, Class studentClass)
+       public async Task AddStudentToClassAsync(Student student, Class studentClass)
         {
-            _context.Update(student);
+            await Task.Run(() =>_context.Update(student));
             student.Class = studentClass;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 
-        public void AddSubject(Subject newSubject)
+        public async Task AddSubjectAsync(Subject newSubject)
         {
-            _context.Add(newSubject);
-            _context.SaveChanges();
+            await _context.AddAsync(newSubject);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<PeopleDTO> GetPeople()
+        //public void AddSubject(Subject newSubject)
+        //{
+        //    _context.Add(newSubject);
+        //    _context.SaveChanges();
+        //}
+
+        public async Task<PeopleDTO> GetPeopleAsync()
         {
 
             var people = new PeopleDTO();
@@ -154,18 +160,18 @@ namespace SchoolSys.Services.Implemented
         /// <param name="personId"></param>
         /// <param name="kindOfUser">Student, Admin, or Teacher</param>
         /// <returns></returns>
-        public Person GetPerson(int personId)
+        public async Task<Person> GetPersonAsync(int personId)
         {
             // Person person = await Task.Run(() => _context.Students.FirstOrDefault(s => s.Id == personId));
             //person = await Task.Run(() => _context.Teachers.FirstOrDefault(t => t.Id == personId));
             //person = await Task.Run(() => _context.Admins.FirstOrDefault(a => a.Id == personId));
             var person = new Person();
        
-                    if((person = _context.Students.FirstOrDefault(s => s.Id == personId) )== null)
+                    if((person = await _context.Students.FirstOrDefaultAsync(s => s.Id == personId) )== null)
             {
-                if((person = _context.Teachers.FirstOrDefault(t => t.Id == personId))== null)
+                if((person = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == personId))== null)
                 {
-                    person = _context.Admins.FirstOrDefault(a => a.Id == personId);
+                    person = await _context.Admins.FirstOrDefaultAsync(a => a.Id == personId);
                 }
             }
                     
@@ -177,10 +183,10 @@ namespace SchoolSys.Services.Implemented
 
         }
 
-        public void UpdatePersonDetails(Person editedPerson)
+        public async Task UpdatePersonDetailsAsync(Person editedPerson)
         {
             _context.Update(editedPerson);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
