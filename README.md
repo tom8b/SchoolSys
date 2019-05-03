@@ -1,5 +1,4 @@
 # SchoolSys
 
-Application that helps teachers managing students.
-Admin account: admin@admin.com / admin
+When run, log in on admin account: admin@admin.com / admin
 
